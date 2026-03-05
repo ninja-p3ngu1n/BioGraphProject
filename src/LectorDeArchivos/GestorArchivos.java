@@ -1,9 +1,13 @@
 package LectorDeArchivos;
+import PaqueteClases.Arista;
 import PaqueteClases.Grafo;
+import PaqueteClases.Nodo;
+import PaqueteClases.Vertice;
+
+
 import com.sun.source.tree.ContinueTree;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -98,4 +102,41 @@ public class GestorArchivos {
         }
         return nuevoGrafo;
     }
+    
+    public void actualizarRepositorio(Grafo grafo, String rutaArchivo){
+        // usamos librerias de i/o para la escritura de archivos
+        try(java.io.FileWriter fw= new java.io.FileWriter(rutaArchivo)){
+            java.io.PrintWriter pw = new java.io.PrintWriter(fw);
+        
+            Nodo<Vertice> verticeActual = grafo.getVertices().getNodoInicial();
+            
+            while(verticeActual != null){
+                Vertice vOrigen = verticeActual.getDato();
+                Nodo<Arista> actualArista = vOrigen.getVecinos().getNodoInicial();
+                
+                while(actualArista != null){
+                    Arista arista = actualArista.getDato();
+                    Vertice vDestino =arista.getDestino();
+                    
+                    
+                    //Como el grafo no esta dirigido, a esta conectado a b, y b con a
+                    // para no tener que guardar la conexion dos veces, solo la guardamos si
+                    // el nombre de origen es alfabeticamente menor al destino
+                    if(vOrigen.getNombrePreoteina().compareTo(vDestino.getNombrePreoteina())<= 0){
+                        pw.println(vOrigen.getNombrePreoteina()+ ","+ 
+                                vDestino.getNombrePreoteina()+ ","+
+                                arista.getPeso());
+                    }
+                    actualArista = actualArista.getSiguiente();
+                }
+                verticeActual = verticeActual.getSiguiente();
+            }
+            
+            javax.swing.JOptionPane.showMessageDialog(null, "Se ha actualizado el repositorio");
+                
+        }
+        catch(java.io.IOException e){
+            javax.swing.JOptionPane.showMessageDialog(null, "Ocurrio un error al guardar: "+ e.getMessage());
+        }
+    }    
 }
