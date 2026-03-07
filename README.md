@@ -1,4 +1,4 @@
-Aquí tienes la versión limpia, directa y sin un solo emoji:
+
 Analizador de Redes de Interacción de Proteínas
 
 Este es un proyecto en Java desarrollado para modelar y analizar redes de interacción proteína-proteína (PPI) utilizando la teoría de grafos. Básicamente, el programa lee un dataset de interacciones, arma la red matemática en memoria y le aplica un par de algoritmos clásicos para sacar información útil.
